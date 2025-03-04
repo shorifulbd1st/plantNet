@@ -10,7 +10,10 @@ import { useNavigate } from 'react-router-dom';
 const AddPlant = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const [uploadButtonText, setUploadButtonText] = useState({ name: 'Upload Image' });
+  // const [uploadButtonText, setUploadButtonText] = useState({ name: 'Upload Image' });
+  const [uploadImage, setUploadImage] = useState({
+    image: { name: 'Upload Button' },
+  })
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const handleSubmit = async e => {
@@ -34,7 +37,7 @@ const AddPlant = () => {
     const plantData = {
       name, description, category, price, quantity, image: imageUrl, seller
     }
-    console.table(plantData);
+    // console.table(plantData);
     try {
       await axiosSecure.post('/plants', plantData)
       toast.success('Data added successfully!')
@@ -56,8 +59,10 @@ const AddPlant = () => {
       {/* Form */}
       <AddPlantForm
         handleSubmit={handleSubmit}
-        uploadButtonText={uploadButtonText}
-        setUploadButtonText={setUploadButtonText}
+        // uploadButtonText={uploadButtonText}
+        // setUploadButtonText={setUploadButtonText}
+        uploadImage={uploadImage}
+        setUploadImage={setUploadImage}
         loading={loading}
       />
     </div>

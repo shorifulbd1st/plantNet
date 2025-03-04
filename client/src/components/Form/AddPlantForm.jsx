@@ -1,6 +1,9 @@
 import { TbFidgetSpinner } from "react-icons/tb"
 
-const AddPlantForm = ({ handleSubmit, uploadButtonText, setUploadButtonText, loading }) => {
+const AddPlantForm = ({
+  handleSubmit, uploadImage,
+  setUploadImage, loading }) => {
+  // handleSubmit, uploadButtonText, setUploadButtonText, loading }) => {
   return (
     <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
       <form onSubmit={handleSubmit}>
@@ -89,7 +92,13 @@ const AddPlantForm = ({ handleSubmit, uploadButtonText, setUploadButtonText, loa
                 <div className='flex flex-col w-max mx-auto text-center'>
                   <label>
                     <input
-                      onChange={e => setUploadButtonText(e.target.files[0])}
+                      // onChange={e => setUploadButtonText(e.target.files[0])}
+                      onChange={e =>
+                        setUploadImage({
+                          image: e.target.files[0],
+                          url: URL.createObjectURL(e.target.files[0]),
+                        })
+                      }
                       className='text-sm cursor-pointer w-36 hidden'
                       type='file'
                       name='image'
@@ -98,13 +107,18 @@ const AddPlantForm = ({ handleSubmit, uploadButtonText, setUploadButtonText, loa
                       hidden
                     />
                     <div className='bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500'>
-                      {uploadButtonText.name}
+                      {uploadImage?.image?.name}
                     </div>
                   </label>
                 </div>
               </div>
             </div>
-
+            {uploadImage && uploadImage?.image?.size && (
+              <div className='flex gap-5 items-center'>
+                <img className='w-20 rounded-lg' src={uploadImage?.url} alt='' />
+                <p>Image Size: {uploadImage?.image?.size} Bytes</p>
+              </div>
+            )}
             {/* Submit Button */}
             <button
               type='submit'
