@@ -51,6 +51,7 @@ async function run() {
     const db = client.db('plantnetDB')
     const userCollection = db.collection('users');
     const plantsCollection = db.collection('plants');
+    const ordersCollection = db.collection('orders');
 
     app.post('/users/:email', async (req, res) => {
       const email = req.params.email;
@@ -99,10 +100,27 @@ async function run() {
       res.send(result);
     })
 
+    // get all plants from db
     app.get('/plants', async (req, res) => {
       const result = await plantsCollection.find().toArray();
       res.send(result)
     })
+
+    // get a plant by id
+    app.get('/plants/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await plantsCollection.findOne(query);
+      res.send(result)
+    })
+
+    // save order data in db
+    app.post('/order', verifyToken, async (req, res) => {
+      const orderInfo = req.body;
+      const result = await ordersCollection.insertOne(orderInfo);
+      res.send(result)
+    })
+
 
 
 
